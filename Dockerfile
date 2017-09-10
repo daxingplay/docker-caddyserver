@@ -10,7 +10,7 @@ RUN apk add --no-cache openssh-client git tar curl && \
          | tar --no-same-owner -C /usr/bin/ -xz caddy && \
     chmod 0755 /usr/bin/caddy && \
     /usr/bin/caddy -version && \
-    apk remove git tar curl
+    apk del git tar curl
 
 COPY Caddyfile /etc/Caddyfile
 
