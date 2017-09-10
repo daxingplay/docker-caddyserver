@@ -3,7 +3,7 @@ MAINTAINER "daxingplay <daxingplay@gmail.com>"
 
 ARG plugins=hook.service,http.authz,http.awses,http.awslambda,http.cache,http.cgi,http.cors,http.datadog,http.expires,http.filter,http.forwardproxy,http.ipfilter,http.jwt,http.login,http.minify,http.nobots,http.proxyprotocol,http.ratelimit,http.realip,http.reauth,http.restic,http.upload,net,tls.dns.cloudflare,tls.dns.digitalocean,tls.dns.dnsimple,tls.dns.dnspod,tls.dns.dyn,tls.dns.exoscale,tls.dns.gandi,tls.dns.googlecloud,tls.dns.linode,tls.dns.namecheap,tls.dns.ovh,tls.dns.rackspace,tls.dns.rfc2136,tls.dns.route53,tls.dns.vultr
 
-RUN apk add --no-cache openssh-client git tar curl && \
+RUN apk add --no-cache ca-certificates openssh-client git tar curl && \
     curl --silent --show-error --fail --location \
          --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
          "https://caddyserver.com/download/linux/amd64?plugins=${plugins}" \
