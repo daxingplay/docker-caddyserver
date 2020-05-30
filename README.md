@@ -1,2 +1,9 @@
 # docker-caddyserver
-simple docker caddyserver simply for reverse proxy with all the dns providers
+
+Simple docker caddyserver simply for reverse proxy with some dns providers.
+
+This is on top of Caddy2.
+
+Currently built-in dns providers:
+* cloudflare
+* lego-deprecated

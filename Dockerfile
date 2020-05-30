@@ -1,21 +1,10 @@
-FROM alpine:3.6
-MAINTAINER "daxingplay <daxingplay@gmail.com>"
+FROM caddy:2.0.0-builder AS builder
 
-ARG plugins=hook.service,http.authz,http.awses,http.awslambda,http.cache,http.cgi,http.cors,http.datadog,http.expires,http.filter,http.forwardproxy,http.ipfilter,http.jwt,http.login,http.minify,http.nobots,http.proxyprotocol,http.ratelimit,http.realip,http.reauth,http.restic,http.upload,net,tls.dns.cloudflare,tls.dns.digitalocean,tls.dns.dnsimple,tls.dns.dnspod,tls.dns.dyn,tls.dns.exoscale,tls.dns.gandi,tls.dns.googlecloud,tls.dns.linode,tls.dns.namecheap,tls.dns.ovh,tls.dns.rackspace,tls.dns.rfc2136,tls.dns.route53,tls.dns.vultr
+RUN caddy-builder \
+    github.com/caddyserver/nginx-adapter \
+    github.com/caddy-dns/cloudflare \
+    github.com/caddy-dns/lego-deprecated
 
-RUN mkdir /etc/Caddy && \
-    apk add --no-cache ca-certificates openssh-client git tar curl && \
-    curl --silent --show-error --fail --location \
-         --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-         "https://caddyserver.com/download/linux/amd64?plugins=${plugins}" \
-         | tar --no-same-owner -C /usr/bin/ -xz caddy && \
-    chmod 0755 /usr/bin/caddy && \
-    /usr/bin/caddy -version && \
-    apk del git tar curl
+FROM caddy:2.0.0
 
-COPY Caddyfile /etc/Caddy/Caddyfile
-
-EXPOSE 80 443
-
-ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["--conf", "/etc/Caddy/Caddyfile", "--log", "stdout"]
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
